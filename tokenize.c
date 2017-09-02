@@ -1,21 +1,8 @@
+#include "tokenize.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
-
-
-#define TEXT_MAX_SIZE 512
-
-typedef enum {
-  OPEN_PAREN,
-  CLOSE_PAREN,
-  ATOM
-} TokenType;
-
-typedef struct sToken {
-  TokenType type;
-  char * text;
-  struct sToken * next;
-} Token;
 
 Token * newToken(TokenType type, char * text) {
   Token * token = malloc(sizeof(Token));
@@ -53,7 +40,7 @@ void printTokens(Token * token) {
   }
 }
 
-Token * parse(char * source) {
+Token * tokenize(char * source) {
   Token * head = NULL;
   char text[TEXT_MAX_SIZE];
   size_t text_position = 0;
@@ -98,11 +85,20 @@ Token * parse(char * source) {
     text_position = 0;
     head = appendToken(head, newToken(ATOM, copyText(text)));
   }
+  /*
+  Token * reverseHead = NULL;
+  while (head != NULL) {
+    Token * next_head = head->next;
+    reverseHead = appendToken(reverseHead, head);
+    head = next_head;
+  }
+  return reverseHead;
+  */
   return head;
 }
 
 int main() {
   char source[] = "((+ 1 2) (+ 3 45))";
-  Token * tokens = parse(source);
+  Token * tokens = tokenize(source);
   printTokens(tokens);
 }
