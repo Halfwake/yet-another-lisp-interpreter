@@ -96,9 +96,3 @@ Token * tokenize(char * source) {
   */
   return head;
 }
-
-int main() {
-  char source[] = "((+ 1 2) (+ 3 45))";
-  Token * tokens = tokenize(source);
-  printTokens(tokens);
-}
