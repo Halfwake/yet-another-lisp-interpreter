@@ -11,7 +11,7 @@
 #include <assert.h>
 
 /*
- * The max possible size of a single token.
+ * The max possible characters in a single token.
  */
 #define TEXT_MAX_SIZE 512
 
