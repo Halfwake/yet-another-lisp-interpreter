@@ -13,6 +13,7 @@ Token * newToken(TokenType type, char * text) {
 
 Token * appendToken(Token * head, Token * new) {
   if (head == NULL) {
+    new->next = NULL;
     return new;
   } else {
     new->next = head;
@@ -47,21 +48,21 @@ Token * tokenize(char * source) {
   while (*source != '\0') {
     if (*source == '(') {
       if (text_position != 0) {
-	text[text_position + 1] = '\0';
+	text[text_position] = '\0';
 	text_position = 0;
 	head = appendToken(head, newToken(ATOM, copyText(text)));
       }
       head = appendToken(head, newToken(OPEN_PAREN, "("));
     } else if (*source == ')') {
       if (text_position != 0) {
-	text[text_position + 1] = '\0';
+	text[text_position] = '\0';
 	text_position = 0;
 	head = appendToken(head, newToken(ATOM, copyText(text)));
       }
       head = appendToken(head, newToken(CLOSE_PAREN, ")"));
     } else if (*source == ';') {
       if (text_position != 0) {
-	text[text_position + 1] = '\0';
+	text[text_position] = '\0';
 	text_position = 0;
 	head = appendToken(head, newToken(ATOM, copyText(text)));
       }
@@ -70,7 +71,7 @@ Token * tokenize(char * source) {
       }
     } else if (*source == ' ') {
       if (text_position != 0) {
-	text[text_position + 1] = '\0';
+	text[text_position] = '\0';
 	text_position = 0;
 	head = appendToken(head, newToken(ATOM, copyText(text)));
       }
@@ -81,11 +82,11 @@ Token * tokenize(char * source) {
     source++;
   }
   if (text_position != 0) {
-    text[text_position + 1] = '\0';    
+    text[text_position] = '\0';    
     text_position = 0;
     head = appendToken(head, newToken(ATOM, copyText(text)));
   }
-  /*
+
   Token * reverseHead = NULL;
   while (head != NULL) {
     Token * next_head = head->next;
@@ -93,6 +94,5 @@ Token * tokenize(char * source) {
     head = next_head;
   }
   return reverseHead;
-  */
-  return head;
 }
+
